@@ -1,9 +1,42 @@
-<ul>
-	<li><md-input type="text" ng-model="newFolderName"></md-input><button ng-click="links.newFolder(newFolderName)">New Folder</button></li>
-	<li ng-repeat="folder in links.currentUser.folders">
-		<a ui-sref=".folder({id: folder._id})">{{folder.name}}</a>
-	</li>
-	<pre>
-	{{links.currentUser | json}}
-	</pre>
-</ul>
+<md-content layout="column">
+	<!--Side Navigation-->
+	<div layout="column" style="height:500px;">
+	  <section layout="row" flex>
+		<md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')">
+		
+		  <md-toolbar class="md-accent">
+		    <h1 class="md-toolbar-tools">My Folders</h1>
+		  </md-toolbar>
+		  
+		  <md-content layout-padding role="navigation">
+		    <md-button ng-click="close()" class="md-primary" hide-gt-md>
+		      Close Sidenav Left
+		    </md-button>
+
+				<form novalidate name="form">
+					<md-input-container layout="row" class="md-icon-float">
+						<label>Folder</label>
+						<md-icon md-svg-icon="file:ic_folder_24px"></md-icon>
+						<input md-maxlength="50" name="fName" type="text" ng-model="newFolderName" required="">
+						<div ng-show="form.$submitted" ng-messages="projectForm.description.$error">
+							<div ng-show="form.fName.$error.required" ng-message="required">This is required.</div>
+						</div>
+					</md-input-container>
+					<md-button class="md-fab md-mini md-primary" ng-click="links.addFolder(newFolderName); newFolderName = ''" aria-label="Add a new folder">Add</md-button>
+				</form>
+
+			<md-list role="list">
+				<md-list-item ng-repeat="folder in links.currentUser.folders">
+					<a ui-sref=".folder({id: folder._id})">{{folder.name}}</a>
+				</md-list-item>
+			</md-list>
+		  </md-content>
+		  
+		</md-sidenav>
+	  </section>
+	</div>
+	<!--Cards-->
+	<div layout="column">
+		
+	</div>
+</md-content>
