@@ -1,14 +1,14 @@
 <head>
   <title>linkster</title>
+  <base href="/">
 </head>
 
-<body>
+<body ng-app="linkster">
   <h1>Welcome to Meteor!</h1>
+  <p>
+    <a ui-sref="home">Home</a>
+    <a ui-sref="about">About</a>
+  </p>
 
-  {{> hello}}
+  <ui-view></ui-view>
 </body>
-
-<template name="hello">
-  <button>Click Me</button>
-  <p>You've pressed the button {{counter}} times.</p>
-</template>
