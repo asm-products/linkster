@@ -2,16 +2,16 @@
 	<!--Side Navigation-->
 	<div layout="column" style="height:500px;">
 	  <section layout="row" flex>
-		<md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')">
+		<md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')">
 		
 		  <md-toolbar class="md-accent">
 		    <h1 class="md-toolbar-tools">My Folders</h1>
 		  </md-toolbar>
 		  
 		  <md-content layout-padding role="navigation">
-		    <md-button ng-click="close()" class="md-primary" hide-gt-md>
+<!--		    <md-button ng-click="close()" class="md-primary" hide-gt-md>
 		      Close Sidenav Left
-		    </md-button>
+		    </md-button>-->
 
 				<form novalidate name="form" ng-submit="links.addFolder(newFolderName); newFolderName = null">
 					<md-input-container layout="row" class="md-icon-float">
