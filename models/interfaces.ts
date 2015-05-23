@@ -1,18 +1,23 @@
 /// <reference path="tsd.d.ts" />
 
 module linkster {
-	export interface IFolderDesc {
-		_id?: string;	
+	export var rootFolderName = '_root';
+	
+	export interface IMongoCollection {
+		_id?: string;
+	}
+	
+	export interface IFolder extends IMongoCollection {
 		name: string;
+		links: ILink[];
+		
+		owner: string;
+		collaborators: string[];
 	}
 	
-	export interface IFolder extends IFolderDesc {
-		description?: string;
+	export interface ILink extends IMongoCollection {
+		title: string;
+		description?: string
 		link?: string;
-		content?: IFolder[];
-	}
-	
-	export interface IUser extends Meteor.User {
-		folders: IFolderDesc[];
 	}
 }

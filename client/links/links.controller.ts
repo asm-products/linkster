@@ -2,25 +2,24 @@
 
 module linkster.client {
 	class LinksterController extends BaseController {
-		static $inject = ['$scope', '$meteor', '$state', 'currentUser'];
-		constructor($scope: ng.meteor.IScope, private $meteor: ng.meteor.IMeteorService, 
-			private $state: ng.ui.IStateService, public currentUser: IUser) {
+		public folders: ng.meteor.AngularMeteorCollection<IFolder>;
+		
+		static $inject = ['$scope', '$meteor', '$state'];
+		constructor($scope: ng.meteor.IScope, private $meteor: ng.meteor.IMeteorService, private $state: ng.ui.IStateService) {
 			super($scope);
 			
-			if (!this.currentUser.folders) {
-				this.currentUser.folders = [];
-			}
-			this.redirectToFirstFolderIfNecessary();
+			this.folders = $scope.$meteorCollection(Folders);
+			this.folders.subscribe('folders');
 		}
 		
 		public newFolder(folderName: string) {
-			this.currentUser.folders.push({_id: Random.id(), name: folderName});
+			this.$meteor.call('addFolder', folderName);
 		}
 		
 		private redirectToFirstFolderIfNecessary() {
 			if (this.$state.current.name === 'links') {
-				if (this.currentUser.folders.length) {
-					this.$state.go('.folder', {id: this.currentUser.folders[0]._id});
+				if (this.folders.length) {
+					this.$state.go('.folder', {id: this.folders[0]._id});
 				}
 			}
 		}

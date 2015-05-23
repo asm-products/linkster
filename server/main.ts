@@ -3,26 +3,12 @@
 
 
 module linkster.server {
-    interface IRootFolder extends IFolder {
-        owner: string;
-    }
+    Meteor.startup(() => {
+        Folders._ensureIndex('folder_collaborators', { collaborators: 1 });
+    });
     
-    function getEmptyRootFolder(userId: string): IRootFolder {
-        return {
-            content: [],
-            owner: userId,
-            name: '_root'
-        };
-    }
-    
-    Meteor.publish('rootFolder', function() {
+    Meteor.publish('folders', function() {
         var me = <Subscription>this;
-        var rootFolder = Folders.findOne({owner: me.userId, name: '_root'});
-        
-        if (!rootFolder) {
-            var id = Folders.insert(getEmptyRootFolder(me.userId));
-            rootFolder = Folders.findOne({_id: id});
-        }
-        return rootFolder;
+        return Folders.find({collaborators: me.userId});
     });
 }

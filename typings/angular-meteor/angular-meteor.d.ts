@@ -7,6 +7,44 @@
 /// <reference path="../angularjs/angular.d.ts" />
 
 declare module angular.meteor {
+    interface IMeteorCollectionMethod {
+        /**
+         * A service that wraps the Meteor collections to enable reactivity within AngularJS.
+         * 
+         * @param collection - A Meteor Collection or a reactive function to bind to. 
+         *                   - Reactive function can be used with $scope.getReactively to add $scope variable as reactive variable to the cursor.
+         * @param [autoClientSave=true] - By default, changes in the Angular collection will automatically update the Meteor collection. 
+         *                              - However if set to false, changes in the client won't be automatically propagated back to the Meteor collection.
+         */
+        <T>(collection: Mongo.Collection<T>|ReactiveResult|Function|(()=>T), autoClientSave?: boolean): AngularMeteorCollection<T>;        
+
+        /**
+         * A service that wraps the Meteor collections to enable reactivity within AngularJS.
+         * 
+         * @param collection - A Meteor Collection or a reactive function to bind to. 
+         *                   - Reactive function can be used with $scope.getReactively to add $scope variable as reactive variable to the cursor.
+         * @param [autoClientSave=true] - By default, changes in the Angular collection will automatically update the Meteor collection. 
+         *                              - However if set to false, changes in the client won't be automatically propagated back to the Meteor collection.
+         * @param [updateCollection] - A collection object which will be used for updates (insert, update, delete).
+         */
+        <T, U>(collection: Mongo.Collection<T>|ReactiveResult|Function|(()=>T), autoClientSave: boolean, updateCollection: Mongo.Collection<U>): AngularMeteorCollection2<T, U>;        
+    }
+    
+    interface IMeteorObjectMethod {
+        /**
+         * A service that wraps a Meteor object to enable reactivity within AngularJS. 
+         * Finds the first document that matches the selector, as ordered by sort and skip options. Wraps collection.findOne
+         * 
+         * @param collection - A Meteor Collection to bind to.
+         * @param selector - A query describing the documents to find or just the ID of the document. 
+         *                 - $meteor.object will find the first document that matches the selector, 
+         *                 - as ordered by sort and skip options, exactly like Meteor's collection.findOne
+         * @param [autoClientSave=true] - By default, changes in the Angular object will automatically update the Meteor object. 
+         *                              - However if set to false, changes in the client won't be automatically propagated back to the Meteor object.
+         */
+        <T>(collection: Mongo.Collection<T>, selector: Mongo.Selector|Mongo.ObjectID|string, autoClientSave?: boolean): AngularMeteorObject<T>;        
+    }
+    
     interface IRootScopeService extends angular.IRootScopeService {
         /**
          * The current logged in user and it's data. it is null if the user is not logged in. A reactive data source.
@@ -19,7 +57,7 @@ declare module angular.meteor {
          */
         loggingIn: boolean;
     }
-    
+
     interface IScope extends angular.IScope, IRootScopeService {
         /**
          * A method to get a $scope variable and watch it reactivly
@@ -39,6 +77,21 @@ declare module angular.meteor {
          * @return The promise solved successfully when subscription is ready. The success promise holds the subscription handle.
          */
         subscribe(name: string, ...publisherArguments: any[]): angular.IPromise<Meteor.SubscriptionHandle>;
+        
+        /**
+         * A service that wraps the Meteor collections to enable reactivity within AngularJS.
+         * 
+         * Additionally, it will automatically stop the collection when the scope is destroyed; therefore this is the recommended method.
+         */
+        $meteorCollection: IMeteorCollectionMethod;
+
+        /**
+         * A service that wraps a Meteor object to enable reactivity within AngularJS. 
+         * Finds the first document that matches the selector, as ordered by sort and skip options. Wraps collection.findOne
+         * 
+         * Additionally, it will automatically stop the object when the scope is destroyed; therefore this is the recommended method.
+         */
+        $meteorObject: IMeteorObjectMethod;
     }
     
     /**
@@ -48,36 +101,19 @@ declare module angular.meteor {
         /**
          * A service that wraps the Meteor collections to enable reactivity within AngularJS.
          * 
-         * @param collection - A Meteor Collection or a reactive function to bind to. 
-         *                   - Reactive function can be used with $scope.getReactively to add $scope variable as reactive variable to the cursor.
-         * @param [autoClientSave=true] - By default, changes in the Angular collection will automatically update the Meteor collection. 
-         *                              - However if set to false, changes in the client won't be automatically propagated back to the Meteor collection.
+         * Calling $scope.$meteorCollection is exactly the same but additionally it will automatically 
+         * stop the collection when the scope is destroyed. Therefor this is the recommended method.
          */
-        collection<T>(collection: Mongo.Collection<T>|ReactiveResult|Function|(()=>T), autoClientSave?: boolean): AngularMeteorCollection<T>;
-        
-        /**
-         * A service that wraps the Meteor collections to enable reactivity within AngularJS.
-         * 
-         * @param collection - A Meteor Collection or a reactive function to bind to. 
-         *                   - Reactive function can be used with $scope.getReactively to add $scope variable as reactive variable to the cursor.
-         * @param [autoClientSave=true] - By default, changes in the Angular collection will automatically update the Meteor collection. 
-         *                              - However if set to false, changes in the client won't be automatically propagated back to the Meteor collection.
-         * @param [updateCollection] - A collection object which will be used for updates (insert, update, delete).
-         */
-        collection<T, U>(collection: Mongo.Collection<T>|ReactiveResult|Function|(()=>T), autoClientSave: boolean, updateCollection: Mongo.Collection<U>): AngularMeteorCollection2<T, U>;
+        collection: IMeteorCollectionMethod;
         
         /**
          * A service that wraps a Meteor object to enable reactivity within AngularJS. 
          * Finds the first document that matches the selector, as ordered by sort and skip options. Wraps collection.findOne
          * 
-         * @param collection - A Meteor Collection to bind to.
-         * @param selector - A query describing the documents to find or just the ID of the document. 
-         *                 - $meteor.object will find the first document that matches the selector, 
-         *                 - as ordered by sort and skip options, exactly like Meteor's collection.findOne
-         * @param [autoClientSave=true] - By default, changes in the Angular object will automatically update the Meteor object. 
-         *                              - However if set to false, changes in the client won't be automatically propagated back to the Meteor object.
+         * Calling $scope.$meteorObject is exactly the same but additionally it will automatically 
+         * stop the object when the scope is destroyed; therefore this is the recommended method.
          */
-        object<T>(collection: Mongo.Collection<T>, selector: Mongo.Selector|Mongo.ObjectID|string, autoClientSave?: boolean): AngularMeteorObject<T>;
+        object: IMeteorObjectMethod;
         
         /**
          * A service which is a wrapper for Meteor.subscribe. It subscribes to a Meteor.publish method in the client and returns a AngularJS promise when ready.
