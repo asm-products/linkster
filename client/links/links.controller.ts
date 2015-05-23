@@ -2,7 +2,7 @@
 
 module linkster.client {
 	class LinksterController extends BaseController {
-		static $inject = ['$scope', '$meteor', '$state'];
+		static $inject = ['$scope', '$meteor', '$state', 'currentUser'];
 		constructor($scope: ng.meteor.IScope, private $meteor: ng.meteor.IMeteorService, 
 			private $state: ng.ui.IStateService, public currentUser: IUser) {
 			super($scope);

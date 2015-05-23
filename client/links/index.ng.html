@@ -1,6 +1,9 @@
 <ul>
-	<li><input type="text" ng-model="newFolderName" /><button ng-click="links.newFolder(newFolderName)">New Folder</button></li>
-	<li ng-repeat="folder in currentUser.folders">
+	<li><md-input type="text" ng-model="newFolderName"></md-input><button ng-click="links.newFolder(newFolderName)">New Folder</button></li>
+	<li ng-repeat="folder in links.currentUser.folders">
 		<a ui-sref=".folder({id: folder._id})">{{folder.name}}</a>
 	</li>
+	<pre>
+	{{links.currentUser | json}}
+	</pre>
 </ul>
