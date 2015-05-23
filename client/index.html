@@ -4,11 +4,11 @@
 </head>
 
 <body ng-app="linkster">
-  <h1>Welcome to Meteor!</h1>
+	<div layout="row" ng-include="'client/main/header.ng.html'"></div>
   <p>
     <a ui-sref="home">Home</a>
     <a ui-sref="about">About</a>
   </p>
-
   <ui-view></ui-view>
+  <div layout="row" ng-include="'client/main/footer.ng.html'"></div>
 </body>

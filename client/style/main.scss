@@ -1,0 +1,21 @@
+.top-toolbar {
+  padding: 10px 0 10px 0;
+}
+
+//Reset the default log in style.
+.login-view{
+  .login-link-text{
+    font-size:3em;
+  }
+}
+#login-buttons a{
+    text-decoration:none;  
+}
+
+//For the login right alignment
+.header-view{
+  #login-buttons.login-buttons-dropdown-align- #login-dropdown-list {
+    left: auto;
+    right: -1px;
+  }
+}
