@@ -10,6 +10,10 @@ module linkster.client {
 			
 			this.folders = $scope.$meteorCollection(Folders);
 			this.folders.subscribe('folders');
+			
+			$meteor.autorun($scope, () => {
+				this.redirectToFirstFolderIfNecessary(<any>$scope.getReactively('links.folders'));
+			})
 		}
 		
 		public addFolder(folderName: string) {
@@ -20,10 +24,16 @@ module linkster.client {
 			this.$meteor.call('renameFolder', folderId, newName);
 		}
 		
-		private redirectToFirstFolderIfNecessary() {
+		public removeFolder(folderId: string) {
+			alert('removing folder ' + folderId);
+		}
+		
+		private redirectToFirstFolderIfNecessary(folders?: ng.meteor.AngularMeteorCollection<IFolder>) {
+			folders = folders || this.folders;
+			
 			if (this.$state.current.name === 'links') {
-				if (this.folders.length) {
-					this.$state.go('.folder', {id: this.folders[0]._id});
+				if (folders && folders.length) {
+					this.$state.go('.folder', {id: folders[0]._id});
 				}
 			}
 		}

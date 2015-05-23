@@ -13,20 +13,17 @@
 		      Close Sidenav Left
 		    </md-button>
 
-				<form novalidate name="form">
+				<form novalidate name="form" ng-submit="links.addFolder(newFolderName); newFolderName = null">
 					<md-input-container layout="row" class="md-icon-float">
 						<label>Folder</label>
 						<md-icon md-svg-icon="file:ic_folder_24px"></md-icon>
-						<input md-maxlength="50" name="fName" type="text" ng-model="newFolderName" required="">
-						<div ng-show="form.$submitted" ng-messages="projectForm.description.$error">
-							<div ng-show="form.fName.$error.required" ng-message="required">This is required.</div>
-						</div>
+						<input md-maxlength="50" name="fName" type="text" ng-model="newFolderName">
 					</md-input-container>
-					<md-button class="md-fab md-mini md-primary" ng-click="links.addFolder(newFolderName); newFolderName = ''" aria-label="Add a new folder">Add</md-button>
+					<md-button class="md-fab md-mini md-primary" aria-label="Add a new folder" ng-disabled="!newFolderName || form.$invalid">Add</md-button>
 				</form>
 
 			<md-list role="list">
-				<md-list-item ng-repeat="folder in links.currentUser.folders">
+				<md-list-item ng-repeat="folder in links.folders">
 					<a ui-sref=".folder({id: folder._id})">{{folder.name}}</a>
 				</md-list-item>
 			</md-list>
