@@ -22,11 +22,11 @@ module linkster.checks {
 		});
 	}
 	
-	export function NonEmptyString() {
-		return MinLengthString(1);
-	}
+	export var NonEmptyString = MinLengthString(1);
 	
 	export function NonEmptyAndMaxLengthString(maxLength: number) {
 		return MinAndMaxLengthString(1, maxLength);
 	}
+	
+	export var FolderName = NonEmptyAndMaxLengthString(50);
 }

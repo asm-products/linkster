@@ -12,8 +12,12 @@ module linkster.client {
 			this.folders.subscribe('folders');
 		}
 		
-		public newFolder(folderName: string) {
+		public addFolder(folderName: string) {
 			this.$meteor.call('addFolder', folderName);
+		}
+		
+		public renameFolder(folderId: string, newName: string) {
+			this.$meteor.call('renameFolder', folderId, newName);
 		}
 		
 		private redirectToFirstFolderIfNecessary() {
