@@ -20,6 +20,14 @@ module linkster {
 			var currentUser = Meteor.userId();
 			
 			Folders.update({_id: id, owner: currentUser}, {$set: {name: newName}});
-		} 
+		},
+		
+		deleteFolder: (id: string) => {
+			check(id, checks.NonEmptyString);
+			
+			var currentUser = Meteor.userId();
+			
+			Folders.remove({_id: id, owner: currentUser});
+		}
 	});
 }

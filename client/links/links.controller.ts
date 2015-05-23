@@ -12,7 +12,8 @@ module linkster.client {
 			this.folders.subscribe('folders');
 			
 			$meteor.autorun($scope, () => {
-				this.redirectToFirstFolderIfNecessary(<any>$scope.getReactively('links.folders'));
+				$scope.getReactively('links.folders[0]');
+				this.redirectToFirstFolderIfNecessary();
 			})
 		}
 		
@@ -25,7 +26,7 @@ module linkster.client {
 		}
 		
 		public removeFolder(folderId: string) {
-			alert('removing folder ' + folderId);
+			this.$meteor.call('deleteFolder', folderId);
 		}
 		
 		private redirectToFirstFolderIfNecessary(folders?: ng.meteor.AngularMeteorCollection<IFolder>) {
