@@ -11,4 +11,6 @@ module linkster.server {
         var me = <Subscription>this;
         return Folders.find({collaborators: me.userId});
     });
+    
+    var test: SimpleSchema.CleaningOptions = {extendAutoValueContext: {}};
 }

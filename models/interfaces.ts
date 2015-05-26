@@ -16,7 +16,7 @@ module linkster {
 	}
 	
 	export interface ILink extends IMongoCollection {
-		title: string;
+		title?: string;
 		description?: string
 		link?: string;
 	}
