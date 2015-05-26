@@ -1,0 +1,19 @@
+# Meteor packages used by this project, one per line.
+# Check this file (and the other files in this directory) into your repository.
+#
+# 'meteor add' and 'meteor remove' will edit this file for you,
+# but you can also edit it by hand.
+
+meteor-platform
+urigo:angular
+angular:angular-material
+fourseven:scss
+angularui:angular-ui-router
+mologie:typescript
+accounts-ui
+accounts-google
+accounts-password
+accounts-github
+accounts-twitter
+accounts-facebook
+planettraining:material-design-icons
