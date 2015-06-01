@@ -24,7 +24,14 @@
 
 			<md-list role="list">
 				<md-list-item ng-repeat="folder in links.folders">
-					<a ui-sref=".folder({id: folder._id})">{{folder.name}}</a>
+					<a ng-show="!editName" ui-sref=".folder({id: folder._id})">{{folder.name}}</a>
+					<md-input-container ng-show="editName" md-no-float>
+						<input md-maxlength="50" type="text" ng-model="newFolderName" placeholder="{{folder.name}}">
+					</md-input-container>
+					<span flex></span>
+					<md-button ng-click="editName = !editName" ng-hide="editName"><md-icon md-svg-icon="image:ic_edit_24px"></md-icon></md-button>
+					<md-button ng-click="renameFolder()" ng-show="!editName"><md-icon md-svg-icon="image:ic_edit_24px"></md-icon></md-button>
+					<md-button><md-icon md-svg-icon="action:ic_delete_24px"></md-icon></md-button>
 				</md-list-item>
 			</md-list>
 		  </md-content>
