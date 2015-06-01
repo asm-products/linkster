@@ -323,7 +323,7 @@ declare module MeteorSimpleSchema {
 		 * 			expectedNumber, expectedBoolean, expectedArray, expectedObject, expectedConstructor, regEx
 		 * - value: Optional. The value that was not valid. Will be used to replace the [value] placeholder in error messages.
 		 */
-		addInvalidKeys(errors: {name: string, type: string, value?: string}[]): void;
+		addInvalidKeys(errors: {name: string; type: string; value?: string}[]): void;
 	}
 	
 	interface ValidationOptions {
@@ -399,6 +399,6 @@ declare module MeteorSimpleSchema {
 	}
 	
 	interface ErrorMessages {
-		[errorType: string]: string|({msg: string, exp?: RegExp}[]);
+		[errorType: string]: string|({msg: string; exp?: RegExp}[]);
 	}
 }

@@ -12,5 +12,5 @@ module linkster.server {
         return Folders.find({collaborators: me.userId});
     });
     
-    var test: SimpleSchema.CleaningOptions = {extendAutoValueContext: {}};
+    var test: MeteorSimpleSchema.CleaningOptions = {extendAutoValueContext: {}};
 }
