@@ -4,8 +4,9 @@ module linkster.client {
 	class LinksterController extends BaseController {
 		public folders: ng.meteor.AngularMeteorCollection<IFolder>;
 		
-		static $inject = ['$scope', '$meteor', '$state'];
-		constructor($scope: ng.meteor.IScope, private $meteor: ng.meteor.IMeteorService, private $state: ng.ui.IStateService) {
+		static $inject = ['$scope', '$meteor', '$state', 'currentUser'];
+		constructor($scope: ng.meteor.IScope, private $meteor: ng.meteor.IMeteorService, 
+			private $state: ng.ui.IStateService, private currentUser: Meteor.User) {
 			super($scope);
 			
 			this.folders = $scope.$meteorCollection(Folders);
@@ -18,15 +19,18 @@ module linkster.client {
 		}
 		
 		public addFolder(folderName: string) {
-			this.$meteor.call('addFolder', folderName);
+			this.folders.push({
+				name: folderName,
+				links: []
+			});
 		}
 		
-		public renameFolder(folderId: string, newName: string) {
-			this.$meteor.call('renameFolder', folderId, newName);
+		public renameFolder(index: number, newName: string) {
+			this.folders[index].name = newName;
 		}
 		
-		public removeFolder(folderId: string) {
-			this.$meteor.call('deleteFolder', folderId);
+		public removeFolder(index: number) {
+			this.folders.splice(index, 1);
 		}
 		
 		private redirectToFirstFolderIfNecessary(folders?: ng.meteor.AngularMeteorCollection<IFolder>) {

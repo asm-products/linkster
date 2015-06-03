@@ -11,8 +11,8 @@ module linkster {
 		name: string;
 		links: ILink[];
 		
-		owner: string;
-		collaborators: string[];
+		owner?: string;
+		collaborators?: string[];
 	}
 	
 	export interface ILink extends IMongoCollection {

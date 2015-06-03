@@ -12,7 +12,14 @@ module linkster {
 	};
 	folderDefinitions['links'] = {
 		type: [Object],
-		max: 100
+		max: 100,
+		autoValue: function(documentOrModifier) {
+			var me = <MeteorSimpleSchema.AutoValueThis>this;
+			
+			if (me.isInsert) {
+				return [];
+			}
+		}
 	};
 	folderDefinitions['links.$.title'] = {
 		type: String,
@@ -33,6 +40,7 @@ module linkster {
 	folderDefinitions['owner'] = {
 		type: String,
 		regEx: SimpleSchema.RegEx.Id,
+		denyUpdate: true,
 		autoValue: function(documentOrModifier) {
 			var me = <MeteorSimpleSchema.AutoValueThis>this;
 			
@@ -44,14 +52,14 @@ module linkster {
 	folderDefinitions['collaborators'] = {
 		type: [String],
 		minCount: 1,
+		denyUpdate: true,
 		autoValue: function(documentOrModifier) {
 			var me = <MeteorSimpleSchema.AutoValueThis>this;
 			
 			if (me.isInsert) {
 				return [me.userId];
 			}
-		},
-		denyUpdate: true
+		}
 	};
 	folderDefinitions['collaborators.$'] = {
 		type: String,
@@ -60,7 +68,6 @@ module linkster {
 	}
 	
 	Folders.attachSchema(new SimpleSchema<IFolder>(folderDefinitions));
-	
 	
 	Folders.deny({
 		insert: (userId: string, doc: IFolder) => {
@@ -84,6 +91,12 @@ module linkster {
 		remove: (userId: string, doc: IFolder) => {
 			return (doc.owner !== userId);
 		}
+	});
+	
+	Folders.allow({
+		insert: (userId: string, doc: IFolder) => { return true; },
+		update: (userId: string, doc: IFolder, fieldNames: string[], modifier) => { return true; },
+		remove: (userId: string, doc: IFolder) => { return true; }
 	})
 		
 //	Meteor.methods({

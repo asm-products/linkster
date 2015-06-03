@@ -5,6 +5,8 @@ declare var SimpleSchema: SimpleSchemaStatic;
 interface SimpleSchemaStatic {
 	new<T>(definition: MeteorSimpleSchema.Definition): SimpleSchema<T>;
 	
+	debug: boolean;
+
 	RegEx: {
 		Email: RegExp;
 		Domain: RegExp;
@@ -24,7 +26,7 @@ interface SimpleSchemaStatic {
 	 */	
 	addValidator(customValidator: Function): void;
 	
-	messages(errorMessages: MeteorSimpleSchema.ErrorMessages): void;	
+	messages(errorMessages: MeteorSimpleSchema.ErrorMessages): void;
 }
 
 interface SimpleSchema<T> {
