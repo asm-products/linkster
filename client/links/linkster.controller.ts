@@ -25,12 +25,12 @@ module linkster.client {
 			});
 		}
 		
-		public renameFolder(index: number, newName: string) {
-			this.folders[index].name = newName;
-		}
-		
 		public removeFolder(index: number) {
 			this.folders.splice(index, 1);
+		}
+		
+		protected onStateChanged(event: ng.IAngularEvent, toState: ng.ui.IState, toParams: any, fromState: ng.ui.IState, fromParams: any) {
+			this.redirectToFirstFolderIfNecessary();		
 		}
 		
 		private redirectToFirstFolderIfNecessary(folders?: ng.meteor.AngularMeteorCollection<IFolder>) {
@@ -41,10 +41,6 @@ module linkster.client {
 					this.$state.go('.folder', {id: folders[0]._id});
 				}
 			}
-		}
-		
-		protected onStateChanged(event: ng.IAngularEvent, toState: ng.ui.IState, toParams: any, fromState: ng.ui.IState, fromParams: any) {
-			this.redirectToFirstFolderIfNecessary();		
 		}
 	}
 	
@@ -63,15 +59,21 @@ module linkster.client {
 						}]
 					}
 				}).state('links.folder', {
-					url: '/:id',
+					url: '/:folderId',
+					templateUrl: 'client/links/folder.ng.html',
+					controller: 'FolderController',
+					controllerAs: 'folder'
+				}).state('links.namedFolder', {
+					url: '/:folderId/:folderName',
 					templateUrl: 'client/links/folder.ng.html',
 					controller: 'FolderController',
 					controllerAs: 'folder'
 				});
             }]).run(['$rootScope', '$state', ($rootScope: ng.IRootScopeService, $state: ng.ui.IStateService) => {
-				$rootScope.$on('$stateChangeError', (event: ng.IAngularEvent, toState: ng.ui.IState, toParams: any,
-																		fromState: ng.ui.IState, fromParams: any, error: string) => {
-					$state.go('home');
+				$rootScope.$on('$stateChangeError', 
+					(event: ng.IAngularEvent, toState: ng.ui.IState, toParams: any,
+					fromState: ng.ui.IState, fromParams: any, error: string) => {
+						$state.go('home');
 				});
 			}]);
 }
