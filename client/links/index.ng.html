@@ -24,7 +24,7 @@
 
 			<md-list role="list">
 				<md-list-item ng-repeat="folder in links.folders | orderBy: 'name'">
-					<a ng-show="!editName" ui-sref=".folder({id: folder._id})">{{folder.name}}</a>
+					<a ng-show="!editName" ui-sref=".namedFolder({folderId: folder._id, folderName: folder.name})">{{folder.name}}</a>
 					<md-input-container ng-show="editName" md-no-float>
 						<input md-maxlength="50" type="text" ng-model="folder.name">
 					</md-input-container>

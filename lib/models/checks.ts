@@ -1,4 +1,4 @@
-/// <reference path="tsd.d.ts" />
+/// <reference path="../tsd.d.ts" />
 
 module linkster.checks {
 	export function MaxLengthString(maxLength: number) {
