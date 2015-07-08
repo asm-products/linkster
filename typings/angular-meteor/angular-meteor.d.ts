@@ -76,7 +76,7 @@ declare module angular.meteor {
          * 
          * @return The promise solved successfully when subscription is ready. The success promise holds the subscription handle.
          */
-        subscribe(name: string, ...publisherArguments: any[]): angular.IPromise<Meteor.SubscriptionHandle>;
+        $meteorSubscribe(name: string, ...publisherArguments: any[]): angular.IPromise<Meteor.SubscriptionHandle>;
         
         /**
          * A service that wraps the Meteor collections to enable reactivity within AngularJS.

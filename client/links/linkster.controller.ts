@@ -5,7 +5,7 @@ module linkster.client {
 		public folders: ng.meteor.AngularMeteorCollection<IFolder>;
 		
 		static $inject = ['$scope', '$meteor', '$state', 'currentUser'];
-		constructor($scope: ng.meteor.IScope, private $meteor: ng.meteor.IMeteorService, 
+		constructor($scope: ng.meteor.IScope, private $meteor: ng.meteor.IMeteorService,
 			private $state: ng.ui.IStateService, private currentUser: Meteor.User) {
 			super($scope);
 			
@@ -25,12 +25,12 @@ module linkster.client {
 			});
 		}
 		
-		public renameFolder(index: number, newName: string) {
-			this.folders[index].name = newName;
-		}
-		
 		public removeFolder(index: number) {
 			this.folders.splice(index, 1);
+		}
+		
+		protected onStateChanged(event: ng.IAngularEvent, toState: ng.ui.IState, toParams: any, fromState: ng.ui.IState, fromParams: any) {
+			this.redirectToFirstFolderIfNecessary();		
 		}
 		
 		private redirectToFirstFolderIfNecessary(folders?: ng.meteor.AngularMeteorCollection<IFolder>) {
@@ -38,13 +38,12 @@ module linkster.client {
 			
 			if (this.$state.current.name === 'links') {
 				if (folders && folders.length) {
-					this.$state.go('.folder', {id: folders[0]._id});
+					this.$state.go('.namedFolder', {
+						folderId: folders[0]._id, 
+						folderName: folders[0].name
+					});
 				}
 			}
-		}
-		
-		protected onStateChanged(event: ng.IAngularEvent, toState: ng.ui.IState, toParams: any, fromState: ng.ui.IState, fromParams: any) {
-			this.redirectToFirstFolderIfNecessary();		
 		}
 	}
 	
@@ -63,15 +62,22 @@ module linkster.client {
 						}]
 					}
 				}).state('links.folder', {
-					url: '/:id',
+					url: '/:folderId',
+					templateUrl: 'client/links/folder.ng.html',
+					controller: 'FolderController',
+					controllerAs: 'folder'
+				}).state('links.namedFolder', {
+					url: '/:folderId/:folderName',
 					templateUrl: 'client/links/folder.ng.html',
 					controller: 'FolderController',
 					controllerAs: 'folder'
 				});
             }]).run(['$rootScope', '$state', ($rootScope: ng.IRootScopeService, $state: ng.ui.IStateService) => {
-				$rootScope.$on('$stateChangeError', (event: ng.IAngularEvent, toState: ng.ui.IState, toParams: any,
-																		fromState: ng.ui.IState, fromParams: any, error: string) => {
-					$state.go('home');
+				$rootScope.$on('$stateChangeError', 
+					(event: ng.IAngularEvent, toState: ng.ui.IState, toParams: any,
+					fromState: ng.ui.IState, fromParams: any, error: string) => {
+						console.log(error);
+						$state.go('home');
 				});
 			}]);
 }

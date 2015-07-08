@@ -11,11 +11,11 @@ fourseven:scss
 angularui:angular-ui-router
 mologie:typescript
 accounts-ui
-accounts-google
+#accounts-google
 accounts-password
-accounts-github
-accounts-twitter
-accounts-facebook
+#accounts-github
+#accounts-twitter
+#accounts-facebook
 planettraining:material-design-icons
 aldeed:simple-schema
 aldeed:collection2
