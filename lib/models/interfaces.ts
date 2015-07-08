@@ -19,5 +19,6 @@ module linkster {
 		title?: string;
 		description?: string
 		link?: string;
+		createdAt?: Date;
 	}
 }

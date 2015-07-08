@@ -37,10 +37,15 @@ module linkster {
 		max: 2048,
 		regEx: SimpleSchema.RegEx.Url
 	};
+	folderDefinitions['links.$.createdAt'] = {
+		type: Date,
+		optional: false,
+		// denyUpdate: true, // TODO: angular-meteor updates the whole object, not just the changes. Enable this again when it gets fixed.
+	}
 	folderDefinitions['owner'] = {
 		type: String,
 		regEx: SimpleSchema.RegEx.Id,
-		denyUpdate: true,
+		// denyUpdate: true, // TODO: angular-meteor updates the whole object, not just the changes. Enable this again when it gets fixed.
 		autoValue: function(documentOrModifier) {
 			var me = <MeteorSimpleSchema.AutoValueThis>this;
 			
@@ -52,7 +57,7 @@ module linkster {
 	folderDefinitions['collaborators'] = {
 		type: [String],
 		minCount: 1,
-		denyUpdate: true,
+		// denyUpdate: true, // TODO: angular-meteor updates the whole object, not just the changes. Enable this again when it gets fixed.
 		autoValue: function(documentOrModifier) {
 			var me = <MeteorSimpleSchema.AutoValueThis>this;
 			
@@ -64,7 +69,7 @@ module linkster {
 	folderDefinitions['collaborators.$'] = {
 		type: String,
 		regEx: SimpleSchema.RegEx.Id,
-		denyUpdate: true
+		// denyUpdate: true, // TODO: angular-meteor updates the whole object, not just the changes. Enable this again when it gets fixed.
 	}
 	
 	Folders.attachSchema(new SimpleSchema<IFolder>(folderDefinitions));

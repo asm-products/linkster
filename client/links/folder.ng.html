@@ -22,3 +22,15 @@
         <md-button>Action 2</md-button>-->
 	</div>
 </md-card>
+<form ng-init="newItem = {}" ng-submit="folder.addNewLink(newItem); newItem = {}">
+	<input ng-model="newItem.link" />
+	<input ng-model="newItem.title" />
+	<input ng-model="newItem.description" />
+	<input type="submit" value="Save" />
+</form>
+<div ng-repeat="link in folder.current.links">
+	<a ng-href="{{link.link}}">{{link.title}}</a>
+	<p>{{link.description}}</p>
+	<p>{{link.createdAt}}</p>
+	<button ng-click="folder.deleteLink($index)">X</button>
+</div>

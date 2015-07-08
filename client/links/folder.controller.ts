@@ -30,6 +30,15 @@ module linkster.client {
 			// this.folders.subscribe('folders');
 		}
 		
+		public addNewLink(link: ILink) {
+			link.createdAt = new Date();
+			this.current.links.push(link);
+		}
+		
+		public deleteLink(index: number) {
+			this.current.links.splice(index, 1);
+		}
+		
 		private initializeController() {
 			this.$scope.$watch('folder.current.name', this.updateFolderUrlIfNecessary.bind(this));			
 		}
