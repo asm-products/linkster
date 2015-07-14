@@ -23,6 +23,61 @@
 	</div>
 </md-card>
 <form ng-init="newItem = {}" ng-submit="folder.addNewLink(newItem); newItem = {}">
+	<md-card style="width:400px;">
+		<div style="height:50px; background-image: url('/images/bg50.png'); background-repeat:repeat; margin-top:0; margin-bottom:0;">
+			<h3>Define my reasearch question</h3>
+		</div>
+		<md-card-content>
+			<md-input-container>
+				<label>Title</label>
+				<input ng-model="newItem.title" />
+			</md-input-container>
+			<p style="margin-top: 0px;">		
+				<md-input-container>
+					<label>Link</label>
+					<input ng-model="newItem.link" />
+				</md-input-container>
+			</p>
+			<div class="md-padding">
+				<md-input-container>
+					<label>Note</label>
+					<textarea columns="1" ng-model="newItem.description"></textarea>
+				</md-input-container>
+			</div>
+		</md-card-content>
+		<div class="md-padding md-actions" style="font-size:12px; padding-top: 0; padding-bottom: 7px;" layout="row" layout-align="space-between center">
+			<md-button class="md-primary" type="submit" value="Save">Save</md-button>
+		</div>
+	</md-card>
+</form>
+
+<md-card style="width:400px;" ng-repeat="link in folder.current.links">
+	<div style="height:50px; background-image: url('/images/bg50.png'); background-repeat:repeat; margin-top:0; margin-bottom:0;">
+		<h3>Define my reasearch question</h3>
+	</div>
+	<md-card-content>
+		<p>{{link.title}}</p>
+		<a ng-href="{{link.link}}" style="font-size: 0.8em;  color: rgb(205, 205, 205); font-style: italic; margin-top: 0px; text-decoration: underline;">{{link.link}}</a>
+		<md-divider></md-divider>
+		<div class="md-padding" style="font-size: 0.8em; color: gray;"><strong>Note:</strong> {{link.description}}</div>
+		<md-divider></md-divider>
+	</md-card-content>
+	<div class="md-padding md-actions" style="font-size:12px; padding-top: 0; padding-bottom: 7px;" layout="row" layout-align="space-between center">
+		<div>
+			<md-icon style="width:18px" md-svg-icon="action:ic_query_builder_24px"></md-icon>
+			<button ng-click="folder.deleteLink($index)">X</button>
+		</div>
+		<div layout="row" layout-align="center center">
+			<span>1<md-icon style="width:18px;" md-svg-icon="social:ic_share_24px"></md-icon></span>
+			<div style="color:rgba(0,0,0,0.54); padding-left:7px;">{{link.createdAt}}</div>
+		</div>
+    <!--<md-button>Action 1</md-button>
+        <md-button>Action 2</md-button>-->
+	</div>
+</md-card>
+
+
+<!--<form ng-init="newItem = {}" ng-submit="folder.addNewLink(newItem); newItem = {}">
 	<input ng-model="newItem.link" />
 	<input ng-model="newItem.title" />
 	<input ng-model="newItem.description" />
@@ -33,4 +88,4 @@
 	<p>{{link.description}}</p>
 	<p>{{link.createdAt}}</p>
 	<button ng-click="folder.deleteLink($index)">X</button>
-</div>
+</div>-->
